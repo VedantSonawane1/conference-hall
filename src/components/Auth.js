@@ -1,15 +1,19 @@
 import React from 'react';
-import './Auth.css';  // Import the CSS file5
 
 const Auth = () => {
   const handleLogin = () => {
-    window.location.href = 'http://localhost:8000/oauth';  // Replace with API endpoint to initiate OAuth
+    // Redirect to OAuth endpoint
+    window.location.href = '/oauth';
   };
 
   return (
-    <div>
-      <h2>Login with Google</h2>
-      <button onClick={handleLogin}>Login</button>
+    <div className="text-center">
+      <button 
+        onClick={handleLogin} 
+        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+      >
+        Login with Google
+      </button>
     </div>
   );
 };

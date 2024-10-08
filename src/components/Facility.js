@@ -1,50 +1,57 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 
 const Facility = () => {
-  const [facilities, setFacilities] = useState([]);
-  const [newFacility, setNewFacility] = useState({
+  const [form, setForm] = useState({
     name: '',
     location: '',
     capacity: ''
   });
 
-  useEffect(() => {
-    // Fetch facilities
-    axios.get('/facilities')
-      .then(res => setFacilities(res.data.facilities))
-      .catch(err => console.error(err));
-  }, []);
-
   const handleChange = (e) => {
-    setNewFacility({ ...newFacility, [e.target.name]: e.target.value });
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('/facilities', newFacility)
-      .then(res => setFacilities([...facilities, res.data]))
-      .catch(err => console.error(err));
+    // Handle form submission (API call)
+    console.log(form);
   };
 
   return (
-    <div>
-      <h2>Create Facility</h2>
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="name" placeholder="Name" value={newFacility.name} onChange={handleChange} required />
-        <input type="text" name="location" placeholder="Location" value={newFacility.location} onChange={handleChange} required />
-        <input type="number" name="capacity" placeholder="Capacity" value={newFacility.capacity} onChange={handleChange} required />
-        <button type="submit">Create Facility</button>
+    <div className="my-10">
+      <h2 className="text-2xl text-center mb-4">Create Facility</h2>
+      <form className="max-w-md mx-auto flex flex-col space-y-4" onSubmit={handleSubmit}>
+        <input
+          className="p-2 border border-gray-300 rounded"
+          type="text"
+          name="name"
+          placeholder="Facility Name"
+          value={form.name}
+          onChange={handleChange}
+          required
+        />
+        <input
+          className="p-2 border border-gray-300 rounded"
+          type="text"
+          name="location"
+          placeholder="Facility Location"
+          value={form.location}
+          onChange={handleChange}
+          required
+        />
+        <input
+          className="p-2 border border-gray-300 rounded"
+          type="number"
+          name="capacity"
+          placeholder="Capacity"
+          value={form.capacity}
+          onChange={handleChange}
+          required
+        />
+        <button className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
+          Create Facility
+        </button>
       </form>
-
-      <h2>All Facilities</h2>
-      <ul>
-        {facilities.map(facility => (
-          <li key={facility.id}>
-            {facility.name} ({facility.capacity}) at {facility.location}
-          </li>
-        ))}
-      </ul>
     </div>
   );
 };
